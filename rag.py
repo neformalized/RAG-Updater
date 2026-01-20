@@ -11,7 +11,7 @@ class RAG:
         #
     #
     
-    def query(self, query: str, top_k: int = 2, enhance: int = 3, strip: bool = False) -> str:
+    def query(self, query: str, top_k: int = 2, enhance: int = 3) -> dict:
         
         queries_embedding = [vectorizer.vectorize(subquery, True) for subquery in llm.generate_search_queries(query, enhance)] if enhance > 0 else vectorizer.vectorize(query, True)
         
@@ -19,25 +19,12 @@ class RAG:
         
         results = retriever.dedup([index.search(self.index, self.chunks, query_embedding, top_k) for query_embedding in queries_embedding])
         
-        print("deduped")
-        print(results)
-        
         #
         
         results = retriever.strip(results)
         
-        print("stripped")
-        print(results)
-        
         #
         
-        result = "\n".join(result) if strip else llm.generate_answer(query, results)
-        
-        print("finalized")
-        print(results)
-        
-        #
-        
-        return result
+        return llm.generate_answer(query, results)
     #
 #
