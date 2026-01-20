@@ -13,6 +13,8 @@ class RAG:
     
     def query(self, query: str, top_k: int = 2, enhance: int = 3) -> dict:
         
+        #
+        
         queries_embedding = [vectorizer.vectorize(subquery, True) for subquery in llm.generate_search_queries(query, enhance)] if enhance > 0 else vectorizer.vectorize(query, True)
         
         #

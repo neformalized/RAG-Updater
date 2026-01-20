@@ -3,16 +3,16 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from holder import Holder
 
-# base config
+# BASE CONFIG
 
 source = "C:\\Users\\omni\\Desktop\\qa.txt"
 
-# base classes
+# BASE CLASSES
 
 store = Holder(source)
 app = FastAPI()
 
-# input & output classes
+# INPUTS
 
 class InputDataAsk(BaseModel):
     question: str
@@ -23,32 +23,22 @@ class InputDataUpdate(BaseModel):
     answer: str
 #
 
-# endpoints
+# ENDPOINTS
+
+# ask endpoint
 
 @app.post("/ask")
 async def ask(data: InputDataAsk):
 	
-    print(data.question)
-    
-    response = await store.query(data.question)
-    
-    print(response)
-    
-    return {
-        "status": "ok",
-        "response": response
-    }
+    return await store.query(data.question)
 #
 
-#
+# update QA endpoint
 
 @app.post("/update")
 async def update(data: InputDataUpdate):
     
-    return {
-        "status": "ok",
-        "response": "ok"
-    }
+    return await store.update(data.question, data.answer)
 #
 
 if __name__ == "__main__":
