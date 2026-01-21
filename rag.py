@@ -2,7 +2,7 @@ from engine import vectorizer, index, llm, retriever
 
 class RAG:
     
-    def __init__(self, document: str, chunk_size: int = 300, overlap: int = 50):
+    def __init__(self, document: str, chunk_size: int = 400, overlap: int = 100):
         
         self.chunks = vectorizer.chunking(document, chunk_size, overlap)
         self.embedding = vectorizer.vectorize(self.chunks)
@@ -11,7 +11,7 @@ class RAG:
         #
     #
     
-    def query(self, query: str, top_k: int = 2, enhance: int = 3) -> dict:
+    def query(self, query: str, top_k: int = 3, enhance: int = 3) -> dict:
         
         #
         

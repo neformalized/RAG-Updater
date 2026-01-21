@@ -38,7 +38,9 @@ async def ask(data: InputDataAsk):
 @app.post("/update")
 async def update(data: InputDataUpdate):
     
-    return await store.update(data.question, data.answer)
+    await store.update(data.question, data.answer)
+    
+    return {"status": True}
 #
 
 if __name__ == "__main__":

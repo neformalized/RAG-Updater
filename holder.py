@@ -1,21 +1,24 @@
-from rag import RAG
+import rag
 import asyncio
+
+from static import llm
 
 class Holder:
     
     def __init__(self, source_path: str):
         
         self.source_path = source_path
-        self.build_store(source_path)
+        
+        self.build_store()
         
         self._lock = asyncio.Lock()
     #
     
-    def build_store(self, source_path: str):
+    def build_store(self):
         
-        with open(source_path, "r", encoding="utf-8") as file:
+        with open(self.source_path, "r", encoding="utf-8") as file:
             
-            self._store = RAG(file.read())
+            self._store = rag.RAG(file.read())
         #
     #
     
@@ -31,7 +34,18 @@ class Holder:
         
         async with self._lock:
             
-            pass
+            with open(self.source_path, "a+", encoding="utf-8") as file:
+                
+                file.seek(0)
+                
+                qa_base = file.read()
+                
+                file.write("\n\n" + llm.generate_qa(qa_base, question, answer))
+                
+                file.close()
+            #
+            
+            self.build_store()
         #
     #
 #
