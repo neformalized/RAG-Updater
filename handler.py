@@ -15,11 +15,11 @@ app = FastAPI()
 # INPUTS
 
 class InputDataAsk(BaseModel):
-    question: str
+    ask: str
 #
 
 class InputDataUpdate(BaseModel):
-    question: str
+    ask: str
     answer: str
 #
 
@@ -30,7 +30,7 @@ class InputDataUpdate(BaseModel):
 @app.post("/ask")
 async def ask(data: InputDataAsk):
 	
-    return await store.query(data.question)
+    return await store.query(data.ask)
 #
 
 # update QA endpoint
@@ -38,7 +38,7 @@ async def ask(data: InputDataAsk):
 @app.post("/update")
 async def update(data: InputDataUpdate):
     
-    await store.update(data.question, data.answer)
+    await store.update(data.ask, data.answer)
     
     return {"status": True}
 #
