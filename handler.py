@@ -5,7 +5,7 @@ from holder import Holder
 
 # BASE CONFIG
 
-source = "C:\\Users\\omni\\Desktop\\qa.txt"
+source = "C:\\Users\\omni\\Desktop\\temp\\qa.txt"
 
 # BASE CLASSES
 
